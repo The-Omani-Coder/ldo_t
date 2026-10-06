@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QUANTIX 3D Platform</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- أيقونات FontAwesome الشاملة -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="premium-bg">
+
+    <!-- دوائر الخلفية المضيئة المودرن -->
+    <div class="bg-circles">
+        <div class="circle c1"></div>
+        <div class="circle c2"></div>
+    </div>
+
+    <!-- 1. شاشة تسجيل الدخول المتطورة وبها نظام الفرز التلقائي -->
+    <div id="login-screen" class="auth-container">
+        <div class="glass-card login-box">
+            <div class="logo">
+                <h2>QUANTIX <span>3D</span></h2>
+                <p>منصة التعلم الافتراضي الذكي للـ QUANTIX</p>
+            </div>
+            <div class="input-group">
+                <input type="text" id="reg-name" placeholder="اسم المبدع/المبدعة">
+                <input type="email" id="reg-email" placeholder="البريد الإلكتروني">
+                
+                <select id="reg-grade" onchange="toggleStreamSelect()">
+                    <option value="">اختر الصف الدراسي...</option>
+                    <script>
+                        for(let i=1; i<=10; i++) {
+                            document.write(`<option value="${i}">الصف ${i}</option>`);
+                        }
+                    </script>
+                    <option value="11">الصف الحادي عشر</option>
+                    <option value="12">الصف الثاني عشر</option>
+                </select>
+
+                <!-- يظهر تلقائياً فقط لصف 11 و 12 -->
+                <select id="reg-stream" style="display: none;">
+                    <option value="عام">اختر المسار...</option>
+                    <option value="علمي">المسار العلمي</option>
+                    <option value="ادبي">المسار الأدبي</option>
+                </select>
+
+                <select id="reg-semester">
+                    <option value="1">الفصل الدراسي الأول</option>
+                    <option value="2">الفصل الدراسي الثاني</option>
+                </select>
+            </div>
+            <button onclick="handleLogin()" class="btn-primary">دخول المنصة <i class="fa-solid fa-arrow-left"></i></button>
+        </div>
+    </div>
+
+    <!-- 2. لوحة التحكم الرئيسية الكاملة (Dashboard) -->
+    <div id="dashboard" class="dashboard-layout" style="display: none;">
+        
+        <!-- القائمة الجانبية الكاملة الخانات -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <h3>QUANTIX <span>3D</span></h3>
+            </div>
+            <nav class="sidebar-menu">
+                <a href="#" class="active" id="menu-main" onclick="switchTab('main')"><i class="fa-solid fa-house"></i> الرئيسية</a>
+                <a href="#" id="menu-summaries" onclick="switchTab('summaries')"><i class="fa-solid fa-book-open"></i> ملخصاتي</a>
+                <a href="#" id="menu-reports" onclick="switchTab('reports')"><i class="fa-solid fa-chart-pie"></i> التقارير والدرجات</a>
+                <a href="#" id="menu-videos" onclick="switchTab('videos')"><i class="fa-solid fa-clapperboard"></i> الفيديوهات التعليمية</a>
+                <a href="#" id="menu-rooms" onclick="switchTab('rooms')"><i class="fa-solid fa-cube"></i> غرف 3D الافتراضية</a>
+                <a href="#" class="logout-btn" onclick="handleLogout()"><i class="fa-solid fa-right-from-bracket"></i> خروج</a>
+            </nav>
+        </aside>
+
+        <!-- المحتوى المتغير والمواد الدراسية -->
+        <main class="main-content">
+            <header class="main-header">
+                <div class="user-welcome">
+                    <h2 id="welcome-text">مرحباً بك!</h2>
+                    <p id="user-info-sub"></p>
+                </div>
+            </header>
+
+            <!-- شبكة عرض المواد الذكية -->
+            <section id="content-section" class="content-body">
+                <div id="subjects-grid" class="subjects-grid"></div>
+            </section>
+        </main>
+    </div>
+
+    <!-- 3. الروبوت العائم ومحرك الـ AI Architect المطور بالكامل -->
+    <div class="ai-robot-container">
+        <div class="robot-trigger" onclick="toggleAIChat()">
+            <img src="robot.webp" alt="QUANTIX AI Robot" class="robot-img">
+            <div class="pulse-ring"></div>
+        </div>
+        
+        <!-- نافذة الشات التوليدية المتقدمة (Gemini / ChatGPT Agent Mode) -->
+        <div id="ai-chat-window" class="ai-chat-card" style="display: none;">
+            <div class="chat-header">
+                <div class="robot-status">
+                    <img src="robot.webp" alt="AI Agent">
+                    <div>
+                        <h4>QUANTIX AI Architect 🤖</h4>
+                        <span class="status-indicator"><span class="dot"></span> المحرك التوليدي نشط</span>
+                    </div>
+                </div>
+                <button onclick="toggleAIChat()" class="close-chat"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <!-- شريط التبديل السريع بين الوضعيات -->
+            <div class="ai-modes-bar">
+                <button id="mode-chat" class="mode-btn active" onclick="switchAIMode('chat')"><i class="fa-solid fa-comments"></i> شات ومحادثة ذكية</button>
+                <button id="mode-architect" class="mode-btn" onclick="switchAIMode('architect')"><i class="fa-solid fa-compass-drafting"></i> المهندس المعماري 3D</button>
+            </div>
+
+            <!-- صندوق الرسائل والمجسمات التوليدية الحية -->
+            <div id="chat-messages" class="chat-messages">
+                <div class="msg system-msg">
+                    <p>مرحباً بكِ يا قائدة الابتكار ريناس! أنا محرك <strong>AI Architect</strong> الذكي.</p>
+                    <p class="hint">💡 <strong>وضعية الشات:</strong> تحدث معي وسأبسط لك أي درس لتخرج فاهماً تماماً بنصائح ذكية.</p>
+                    <p class="hint">📐 <strong>وضعية المهندس:</strong> اكتب أمر بناء (مثال: <em>"صمم غرفة فيزياء"</em>) لتوليدها فوراً!</p>
+                </div>
+            </div>
+
+            <!-- إدخال الأوامر والرسائل المباشرة -->
+            <div class="chat-input-area">
+                <input type="text" id="chat-input" placeholder="اكتب سؤالك العلمي أو أمر البناء المعماري هنا..." onkeypress="handleChatKeyPress(event)">
+                <button onclick="sendChatMessage()" class="btn-send"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
